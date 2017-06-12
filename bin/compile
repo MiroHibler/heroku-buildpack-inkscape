@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+
+# intltool
+mkdir -p "$BUILD_DIR/.intltool"
+cd "$BUILD_DIR/.intltool"
+wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+tar -xf intltool-0.51.0.tar.gz
+cd intltool-0.51.0
+./configure
+make
+
+# inkscape
+mkdir -p "$BUILD_DIR/.inkscape/"
+cd "$BUILD_DIR/.inkscape/"
+wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
+tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
+cd inkscape-0.92.1
+./configure
+make
+export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
