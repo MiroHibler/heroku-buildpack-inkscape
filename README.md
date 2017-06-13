@@ -4,6 +4,8 @@ Currently installs Inkscape 0.92.1 on Heroku Cedar.
 
 Uses intltool [v0.50.0](https://launchpad.net/intltool)
 
+Runs [test](https://github.com/duhast/heroku-inkscape-test).
+
 ## Install
 
     # Use heroku-buildpack-multi
