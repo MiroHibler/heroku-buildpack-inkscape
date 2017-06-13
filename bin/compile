@@ -23,7 +23,7 @@ export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
 # test inkscape
 # https://github.com/duhast/heroku-inkscape-test
-ldd $(which inkscape) | grep found
+# ldd $(which inkscape) | grep found
 
 FILE1=/tmp/ink$RANDOM.png
 FILE2=/tmp/ink$RANDOM.svg
