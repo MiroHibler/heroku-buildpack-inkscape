@@ -31,7 +31,7 @@ CACHE_DIR=${2:-}
 #
 # Install Perl XML::Parser
 #
-echo .
+echo
 echo "-----> Installing Perl XML::Parser..."
 curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
 eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
@@ -40,11 +40,11 @@ cpanm -n XML::Parser
 #
 # Install intltool
 #
-echo .
+echo
 echo "-----> Installing intltool..."
 mkdir -p "$BUILD_DIR/.intltool"
 cd "$BUILD_DIR/.intltool"
-wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz -s -O
 tar -xf intltool-0.51.0.tar.gz
 cd intltool-0.51.0
 ./configure
@@ -53,7 +53,7 @@ make
 #
 # Install cmake
 #
-# echo .
+# echo
 # echo "-----> Installing cmake..."
 # mkdir -p "$BUILD_DIR/.cmake/"
 # cd "$BUILD_DIR/.cmake/"
@@ -64,19 +64,20 @@ make
 # make
 # make DESTDIR=$BUILD_DIR/cmake install
 # export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
+export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
 
 #
 # Install Inkscape
 #
-echo .
+echo
 echo "-----> Installing Inkscape..."
 mkdir -p "$BUILD_DIR/.inkscape/"
 cd "$BUILD_DIR/.inkscape/"
-wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
+wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2 -s -O
 tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 cd inkscape-0.92.1
 
-echo .
+echo
 echo "-----> Installing gtest..."
 ./download-gtest.sh
 export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
@@ -99,7 +100,7 @@ export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
-echo .
+echo
 echo "-----> Testing Inkscape..."
 # ldd $(which inkscape) | grep found
 
