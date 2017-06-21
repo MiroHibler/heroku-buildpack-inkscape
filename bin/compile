@@ -38,6 +38,21 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 
 #
+# Show current environment
+#
+echo
+echo "Current environment" | arrow
+env | indent
+
+#
+# Show build dir content
+#
+echo
+echo "Build dir content" | arrow
+cd "$BUILD_DIR"
+ls -al | indent
+
+#
 # Install Perl XML::Parser
 #
 echo
