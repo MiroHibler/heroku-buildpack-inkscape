@@ -58,8 +58,7 @@ cd cmake-3.8.2
 ./bootstrap
 make
 make DESTDIR=$BUILD_DIR/cmake install
-ls -al $BUILD_DIR/cmake/
-export PATH="$BUILD_DIR/cmake;$BUILD_DIR/cmake/bin":$PATH
+export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
 
 #
 # Install Inkscape
