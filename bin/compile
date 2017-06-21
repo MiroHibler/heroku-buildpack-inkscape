@@ -17,9 +17,8 @@ cd "$BUILD_DIR/.inkscape/"
 wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
 tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 cd inkscape-0.92.1
-mkdir build
-cd build
-cmake ..
+./autogen.sh
+./configure
 make
 make install
 export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
