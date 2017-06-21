@@ -28,8 +28,10 @@ fi
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 
-# Building prerequisites
-echo "-----> Building prerequisites..."
+#
+# Install XML::Parser
+#
+echo "\n-----> Installing XML::Parser..."
 curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
 eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
 cpanm -n XML::Parser
@@ -37,7 +39,7 @@ cpanm -n XML::Parser
 #
 # Install intltool
 #
-echo "-----> Installing intltool..."
+echo "\n-----> Installing intltool..."
 mkdir -p "$BUILD_DIR/.intltool"
 cd "$BUILD_DIR/.intltool"
 wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
@@ -49,7 +51,7 @@ make
 #
 # Install cmake
 #
-echo "-----> Installing cmake..."
+echo "\n-----> Installing cmake..."
 mkdir -p "$BUILD_DIR/.cmake/"
 cd "$BUILD_DIR/.cmake/"
 curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
@@ -63,17 +65,19 @@ export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
 #
 # Install Inkscape
 #
-echo "-----> Installing Inkscape..."
+echo "\n-----> Installing Inkscape..."
 mkdir -p "$BUILD_DIR/.inkscape/"
 cd "$BUILD_DIR/.inkscape/"
 wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
 tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 cd inkscape-0.92.1
 
+./download-gtest.sh
+export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
+
 # Inkscape version 0.92 and newer can be build using cmake:
 mkdir build
 cd build
-download-gtest.sh
 cmake ..
 make
 make install
@@ -89,7 +93,7 @@ export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
-echo "-----> Testing Inkscape..."
+echo "\n-----> Testing Inkscape..."
 # ldd $(which inkscape) | grep found
 
 FILE1=/tmp/ink$RANDOM.png
