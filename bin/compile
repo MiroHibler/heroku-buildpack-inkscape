@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+arrow() {
+  sed -u 's/^//' | arrow
+}
 
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
 export_env_dir() {
@@ -32,7 +41,7 @@ CACHE_DIR=${2:-}
 # Install Perl XML::Parser
 #
 echo
-echo "-----> Installing Perl XML::Parser..."
+echo "Installing Perl XML::Parser..." | arrow
 curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
 eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
 cpanm -n XML::Parser
@@ -41,7 +50,7 @@ cpanm -n XML::Parser
 # Install intltool
 #
 echo
-echo "-----> Installing intltool..."
+echo "Installing intltool..." | arrow
 mkdir -p "$BUILD_DIR/.intltool"
 cd "$BUILD_DIR/.intltool"
 wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
@@ -54,7 +63,7 @@ make
 # Install cmake
 #
 # echo
-# echo "-----> Installing cmake..."
+# echo "Installing cmake..." | arrow
 # mkdir -p "$BUILD_DIR/.cmake/"
 # cd "$BUILD_DIR/.cmake/"
 # curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
@@ -70,7 +79,7 @@ export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
 # Install Inkscape
 #
 echo
-echo "-----> Installing Inkscape..."
+echo "Installing Inkscape..." | arrow
 mkdir -p "$BUILD_DIR/.inkscape/"
 cd "$BUILD_DIR/.inkscape/"
 wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
@@ -78,8 +87,8 @@ tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 cd inkscape-0.92.1
 
 echo
-echo "-----> Installing gtest..."
-./download-gtest.sh
+echo "Installing gtest..." | arrow
+./download-gtest.sh | indent
 export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
 
 # Inkscape version 0.92 and newer can be build using cmake:
@@ -101,7 +110,7 @@ export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
 echo
-echo "-----> Testing Inkscape..."
+echo "Testing Inkscape..." | arrow
 # ldd $(which inkscape) | grep found
 
 FILE1=/tmp/ink$RANDOM.png
