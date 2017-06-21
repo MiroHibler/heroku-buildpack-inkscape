@@ -73,6 +73,7 @@ cd inkscape-0.92.1
 # Inkscape version 0.92 and newer can be build using cmake:
 mkdir build
 cd build
+download-gtest.sh
 cmake ..
 make
 make install
