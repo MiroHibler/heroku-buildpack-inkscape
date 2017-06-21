@@ -44,7 +44,7 @@ echo
 echo "-----> Installing intltool..."
 mkdir -p "$BUILD_DIR/.intltool"
 cd "$BUILD_DIR/.intltool"
-wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz -s -O
+wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
 tar -xf intltool-0.51.0.tar.gz
 cd intltool-0.51.0
 ./configure
@@ -73,7 +73,7 @@ echo
 echo "-----> Installing Inkscape..."
 mkdir -p "$BUILD_DIR/.inkscape/"
 cd "$BUILD_DIR/.inkscape/"
-wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2 -s -O
+wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
 tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 cd inkscape-0.92.1
 
