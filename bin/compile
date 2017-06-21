@@ -57,9 +57,9 @@ tar -xf cmake-3.8.2.tar.gz
 cd cmake-3.8.2
 ./bootstrap
 make
-make install --prefix=$BUILD_DIR/cmake/
+make DESTDIR=$BUILD_DIR/cmake install
 ls -al $BUILD_DIR/cmake/
-export PATH="$BUILD_DIR/cmake/cmake-3.8.2;$BUILD_DIR/cmake/cmake-3.8.2/bin":$PATH
+export PATH="$BUILD_DIR/cmake;$BUILD_DIR/cmake/bin":$PATH
 
 #
 # Install Inkscape
