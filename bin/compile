@@ -88,7 +88,7 @@ cd inkscape-0.92.1
 
 echo
 echo "Installing gtest..." | arrow
-./download-gtest.sh | indent
+./download-gtest.sh
 export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
 
 # Inkscape version 0.92 and newer can be build using cmake:
