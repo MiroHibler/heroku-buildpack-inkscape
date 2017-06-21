@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Fail fast
-set -e
-# Debug verbosely
-#set -x
-
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
 export_env_dir() {
   env_dir=$1
@@ -25,6 +20,8 @@ export_env_dir $3
 # we've loaded environment configs.
 if [ -n "${BUILDPACK_VERBOSE+1}" ]; then
   set -x
+else
+  set -e
 fi
 
 # Get the directory our app is checked out in (the "BUILD_DIR"), passed by Heroku
@@ -32,10 +29,10 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 
 # Building prerequisites
-# echo "-----> Building prerequisites..."
-# curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
-# eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
-# cpanm -n XML::Parser
+echo "-----> Building prerequisites..."
+curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
+eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
+cpanm -n XML::Parser
 
 #
 # Install intltool
