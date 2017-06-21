@@ -77,18 +77,18 @@ make
 #
 # Install cmake
 #
-echo
-echo "Installing cmake..." | arrow
-mkdir -p "$BUILD_DIR/.cmake/"
-cd "$BUILD_DIR/.cmake/"
-curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
-tar -xf cmake-3.8.2.tar.gz
-cd cmake-3.8.2
-./bootstrap
-make
-make DESTDIR=$BUILD_DIR/cmake install
-export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
-# export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
+# echo
+# echo "Installing cmake..." | arrow
+# mkdir -p "$BUILD_DIR/.cmake/"
+# cd "$BUILD_DIR/.cmake/"
+# curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
+# tar -xf cmake-3.8.2.tar.gz
+# cd cmake-3.8.2
+# ./bootstrap
+# make
+# make DESTDIR=$BUILD_DIR/cmake install
+# export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
+export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
 
 #
 # Install Inkscape
