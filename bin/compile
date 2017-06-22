@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 YELLOW='\033[1;33m'
+RED='\033[1;31m'
 RESET='\033[0m'
 
 # Console utilities
 function error() {
-  echo " !     $*" >&2
-  exit 1
+	echo "${RED} !     $*${RESET}" >&2
+	exit 1
 }
 
 function indent() {
@@ -18,7 +19,8 @@ function indent() {
 }
 
 function topic() {
-  sed -u 's/^/-----> /'
+	echo
+	echo '${YELLOW}-----> $*${RESET}'
 }
 
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
@@ -52,17 +54,15 @@ CACHE_DIR=${2:-}
 #
 # Show current environment
 #
-echo -e
-echo -e "${YELLOW}"
-echo -e "Current environment" | topic
+# topic "Current environment"
+echo "${RED}"
 env | indent
-echo -e "${RESET}"
+echo "${RESET}"
 
 #
 # Install Perl XML::Parser
 #
-# echo
-# echo "Installing Perl XML::Parser..." | topic
+# topic "Installing Perl XML::Parser..."
 # curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
 # eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
 # cpanm -n XML::Parser
@@ -70,8 +70,7 @@ echo -e "${RESET}"
 #
 # Install GSL
 #
-# echo
-# echo "Installing gsl..." | topic
+# topic "Installing gsl..."
 # mkdir -p "$BUILD_DIR/.gsl"
 # cd "$BUILD_DIR/.gsl"
 # wget https://ftp.gnu.org/gnu/gsl/gsl-2.4.tar.gz
@@ -88,8 +87,7 @@ echo -e "${RESET}"
 #
 # Install intltool
 #
-# echo
-# echo "Installing intltool..." | topic
+# topic "Installing intltool..."
 # mkdir -p "$BUILD_DIR/.intltool"
 # cd "$BUILD_DIR/.intltool"
 # wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
@@ -101,8 +99,7 @@ echo -e "${RESET}"
 #
 # Install cmake
 #
-# echo
-# echo "Installing cmake..." | topic
+# topic "Installing cmake..."
 # mkdir -p "$BUILD_DIR/.cmake/"
 # cd "$BUILD_DIR/.cmake/"
 # curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
@@ -117,16 +114,14 @@ echo -e "${RESET}"
 #
 # Install Inkscape
 #
-# echo
-# echo "Installing Inkscape..." | topic
+# topic "Installing Inkscape..."
 # mkdir -p "$BUILD_DIR/.inkscape/"
 # cd "$BUILD_DIR/.inkscape/"
 # wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
 # tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
 # cd inkscape-0.92.1
 #
-# echo
-# echo "Installing gtest..." | topic
+# topic "Installing gtest..."
 # ./download-gtest.sh
 # export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
 
@@ -146,11 +141,18 @@ echo -e "${RESET}"
 
 # export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
+# Test Ghostscript
+topic "Testing Ghostscript..."
+#ldd $(which gs) | grep found
+GS=`gs --version`
+echo "${RED}Ghoscript v${GS}${RESET}"
+
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
-echo -e
-echo -e "Testing Inkscape..." | topic
-# ldd $(which inkscape) | grep found
+topic "Testing Inkscape..."
+#ldd $(which inkscape) | grep found
+IS=`inkscape --version`
+echo "${RED}Ghoscript v${IS}${RESET}"
 
 FILE1=/tmp/ink$RANDOM.png
 FILE2=/tmp/ink$RANDOM.svg
