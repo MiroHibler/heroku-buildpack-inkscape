@@ -2,6 +2,7 @@
 
 Installs [Inkscape](https://inkscape.org) v0.92.1 on Heroku.
 
+Uses gsl [v2.4](https://www.gnu.org/software/gsl/)
 Uses intltool [v0.51.0](https://launchpad.net/intltool)
 
 Runs [test](https://github.com/duhast/heroku-inkscape-test).
