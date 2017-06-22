@@ -65,6 +65,9 @@ tar -xf gsl-2.4.tar.gz
 cd gsl-2.4
 ./configure
 make
+make DESTDIR=$BUILD_DIR/gsl install
+export LIBRARY_PATH="$BUILD_DIR/gsl":$LIBRARY_PATH
+export LD_LIBRARY_PATH="$BUILD_DIR/gsl":$LD_LIBRARY_PATH
 
 #
 # Install intltool
