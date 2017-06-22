@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
+YELLOW='\033[1;33m'
+RESET='\033[0m'
 
-indent() {
-  sed -u 's/^/       /'
+# Console utilities
+function error() {
+  echo " !     $*" >&2
+  exit 1
 }
 
-arrow() {
+function indent() {
+	c='s/^/       /'
+	case $(uname) in
+		Darwin) sed -l "$c";;
+		*)      sed -u "$c";;
+	esac
+}
+
+function topic() {
   sed -u 's/^/-----> /'
 }
 
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
-export_env_dir() {
+function export_env_dir() {
   env_dir=$1
   whitelist_regex=${2:-''}
   blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
@@ -40,24 +52,26 @@ CACHE_DIR=${2:-}
 #
 # Show current environment
 #
-echo
-echo "Current environment" | arrow
+echo -e
+echo -e "${YELLOW}"
+echo -e "Current environment" | topic
 env | indent
+echo -e "${RESET}"
 
 #
 # Install Perl XML::Parser
 #
-echo
-echo "Installing Perl XML::Parser..." | arrow
-curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
-eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
-cpanm -n XML::Parser
+# echo
+# echo "Installing Perl XML::Parser..." | topic
+# curl --silent -L http://cpanmin.us | perl - -l ~/perl5 App::cpanminus local::lib
+# eval `perl -I ~/perl5/lib/perl5 -Mlocal::lib`
+# cpanm -n XML::Parser
 
 #
 # Install GSL
 #
 # echo
-# echo "Installing gsl..." | arrow
+# echo "Installing gsl..." | topic
 # mkdir -p "$BUILD_DIR/.gsl"
 # cd "$BUILD_DIR/.gsl"
 # wget https://ftp.gnu.org/gnu/gsl/gsl-2.4.tar.gz
@@ -74,21 +88,21 @@ cpanm -n XML::Parser
 #
 # Install intltool
 #
-echo
-echo "Installing intltool..." | arrow
-mkdir -p "$BUILD_DIR/.intltool"
-cd "$BUILD_DIR/.intltool"
-wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
-tar -xf intltool-0.51.0.tar.gz
-cd intltool-0.51.0
-./configure
-make
+# echo
+# echo "Installing intltool..." | topic
+# mkdir -p "$BUILD_DIR/.intltool"
+# cd "$BUILD_DIR/.intltool"
+# wget https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+# tar -xf intltool-0.51.0.tar.gz
+# cd intltool-0.51.0
+# ./configure
+# make
 
 #
 # Install cmake
 #
 # echo
-# echo "Installing cmake..." | arrow
+# echo "Installing cmake..." | topic
 # mkdir -p "$BUILD_DIR/.cmake/"
 # cd "$BUILD_DIR/.cmake/"
 # curl https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz -s -O
@@ -98,30 +112,30 @@ make
 # make
 # make DESTDIR=$BUILD_DIR/cmake install
 # export PATH="$BUILD_DIR/cmake/usr/local/bin":$PATH
-export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
+# export PATH="$BUILD_DIR/vendor/cmake/bin":$PATH
 
 #
 # Install Inkscape
 #
-echo
-echo "Installing Inkscape..." | arrow
-mkdir -p "$BUILD_DIR/.inkscape/"
-cd "$BUILD_DIR/.inkscape/"
-wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
-tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
-cd inkscape-0.92.1
-
-echo
-echo "Installing gtest..." | arrow
-./download-gtest.sh
-export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
+# echo
+# echo "Installing Inkscape..." | topic
+# mkdir -p "$BUILD_DIR/.inkscape/"
+# cd "$BUILD_DIR/.inkscape/"
+# wget https://inkscape.org/gallery/item/10682/inkscape-0.92.1.tar_XlpI7qT.bz2
+# tar -xf inkscape-0.92.1.tar_XlpI7qT.bz2
+# cd inkscape-0.92.1
+#
+# echo
+# echo "Installing gtest..." | topic
+# ./download-gtest.sh
+# export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/gtest":$PATH
 
 # Inkscape version 0.92 and newer can be build using cmake:
-mkdir build
-cd build
-cmake ..
-make
-make install
+# mkdir build
+# cd build
+# cmake ..
+# make
+# make install
 
 # We also still include autoconf in 0.92 as an alternate build system, in
 # case anything goes haywire with the new cmake scripts:
@@ -130,12 +144,12 @@ make install
 # make
 # make install
 
-export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
+# export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
-echo
-echo "Testing Inkscape..." | arrow
+echo -e
+echo -e "Testing Inkscape..." | topic
 # ldd $(which inkscape) | grep found
 
 FILE1=/tmp/ink$RANDOM.png
