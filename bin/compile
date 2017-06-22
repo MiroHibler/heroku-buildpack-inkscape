@@ -55,9 +55,9 @@ CACHE_DIR=${2:-}
 # Show current environment
 #
 # topic "Current environment"
-echo -e "${RED}"
-env | indent
-echo -e "${RESET}"
+# echo -e "${RED}"
+# env | indent
+# echo -e "${RESET}"
 
 #
 # Install Perl XML::Parser
@@ -142,24 +142,24 @@ echo -e "${RESET}"
 # export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
 # Test Ghostscript
-topic "Testing Ghostscript..."
+#topic "Testing Ghostscript..."
 #ldd $(which gs) | grep found
-GS_VERSION=`gs --version`
-indent "Ghoscript v${GS_VERSION}"
+#GS_VERSION=`gs -h | grep Version`
+#echo -e "gs ${GS_VERSION}" | indent
 
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
 topic "Testing Inkscape..."
 #ldd $(which inkscape) | grep found
 IS_VERSION=`inkscape --version`
-indent "${IS_VERSION}"
+echo -e "${IS_VERSION}" | indent
 
 FILE1=/tmp/ink$RANDOM.png
 FILE2=/tmp/ink$RANDOM.svg
 
 inkscape --without-gui --file=./test/data/drawing.svg \
   --export-area-drawing --export-text-to-path --vacuum-defs --export-plain-svg=$FILE2 \
-  --export-width=1024 --export-png=$FILE1 | indent
+  --export-width=1024 --export-png=$FILE1
 
-curl --upload-file $FILE1 https://transfer.sh/$(basename $FILE1) | indent
-curl --upload-file $FILE2 https://transfer.sh/$(basename $FILE2) | indent
+curl --upload-file $FILE1 https://transfer.sh/$(basename $FILE1)
+curl --upload-file $FILE2 https://transfer.sh/$(basename $FILE2)
