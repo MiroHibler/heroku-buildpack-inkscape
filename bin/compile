@@ -6,7 +6,7 @@ RESET='\033[0m'
 
 # Console utilities
 function error() {
-	echo " !     $*" >&2
+	echo -e " !     $*" >&2
 	exit 1
 }
 
@@ -19,8 +19,8 @@ function indent() {
 }
 
 function topic() {
-	echo
-	echo "-----> $*"
+	echo -e
+	echo -e "-----> $*"
 }
 
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
@@ -55,9 +55,9 @@ CACHE_DIR=${2:-}
 # Show current environment
 #
 # topic "Current environment"
-echo "${RED}"
+echo -e "${RED}"
 env | indent
-echo "${RESET}"
+echo -e "${RESET}"
 
 #
 # Install Perl XML::Parser
@@ -145,14 +145,14 @@ echo "${RESET}"
 topic "Testing Ghostscript..."
 #ldd $(which gs) | grep found
 GS_VERSION=`gs --version`
-echo "Ghoscript v${GS_VERSION}"
+indent "Ghoscript v${GS_VERSION}"
 
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
 topic "Testing Inkscape..."
 #ldd $(which inkscape) | grep found
 IS_VERSION=`inkscape --version`
-echo "${IS_VERSION}"
+indent "${IS_VERSION}"
 
 FILE1=/tmp/ink$RANDOM.png
 FILE2=/tmp/ink$RANDOM.svg
