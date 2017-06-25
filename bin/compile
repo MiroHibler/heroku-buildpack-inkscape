@@ -23,6 +23,21 @@ function topic() {
 	echo -e "-----> $*"
 }
 
+topic "${YELLOW}Inkscape buildpack WARNING:"
+echo -e "This buildpack is no longer maintained." | indent
+echo -e | indent
+echo -e "Please use Heroku maintained buildpack https://github.com/heroku/heroku-buildpack-apt.git" | indent
+echo -e "and follow their instructions." | indent
+echo -e | indent
+
+# Don't run after expiry date
+# echo -e "This buildpack will cease to function at the stroke of midnight on July 1, 2017.${RESET}" | indent
+
+# [ $(date +%Y%m%d%H%M%S) -gt "20170701000000" ] && exit 1
+
+echo -e "This buildpack will only test existing Inscape installation." | indent
+echo -e "Therefore it should run at the end of the buildpacks list.${RESET}" | indent
+
 # Load config vars into environment (from https://devcenter.heroku.com/articles/buildpack-api)
 function export_env_dir() {
   env_dir=$1
@@ -141,25 +156,27 @@ CACHE_DIR=${2:-}
 
 # export PATH="$BUILD_DIR/.inkscape/inkscape-0.92.1/bin":$PATH
 
-# Test Ghostscript
-#topic "Testing Ghostscript..."
-#ldd $(which gs) | grep found
-#GS_VERSION=`gs -h | grep Version`
-#echo -e "gs ${GS_VERSION}" | indent
-
 # Test Inkscape
 # https://github.com/duhast/heroku-inkscape-test
 topic "Testing Inkscape..."
 #ldd $(which inkscape) | grep found
-IS_VERSION=`inkscape --version`
+IS_VERSION=`inkscape --version --without-gui `
 echo -e "${IS_VERSION}" | indent
 
+# List installed fonts
+topic "Listing installed fonts..."
+identify -list font | grep Font: | indent
+
+# Test file conversion
+topic "Testing conversion..."
 FILE1=/tmp/ink$RANDOM.png
 FILE2=/tmp/ink$RANDOM.svg
 
 inkscape --without-gui --file=./test/data/drawing.svg \
   --export-area-drawing --export-text-to-path --vacuum-defs --export-plain-svg=$FILE2 \
-  --export-width=1024 --export-png=$FILE1
+  --export-width=1024 --export-png=$FILE1 | indent
 
-curl --upload-file $FILE1 https://transfer.sh/$(basename $FILE1)
-curl --upload-file $FILE2 https://transfer.sh/$(basename $FILE2)
+# Upload test files for examination
+topic "Uploading test files..."
+curl --upload-file $FILE1 https://transfer.sh/$(basename $FILE1) | indent
+curl --upload-file $FILE2 https://transfer.sh/$(basename $FILE2) | indent

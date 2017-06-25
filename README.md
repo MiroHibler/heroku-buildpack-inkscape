@@ -1,23 +1,17 @@
 # Heroku Buildpack for Inkscape
 
-Installs [Inkscape](https://inkscape.org) v0.92.1 on Heroku.
+## Deprecated
 
-Uses gsl [v2.4](https://www.gnu.org/software/gsl/)
-Uses intltool [v0.51.0](https://launchpad.net/intltool)
+This buildpack is no longer maintained.
 
-Runs [test](https://github.com/duhast/heroku-inkscape-test).
+Please use Heroku maintained [buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-apt) instead and follow their instructions.
+
+If installed, this buildpack will only test existing Inscape installation, therefore it should run at the end of the buildpacks list.
 
 ## Install
-
-First add dependences:
-
-```sh
-$ heroku buildpacks:add https://github.com/Munett/heroku-buildpack-cmake.git [--index X] [--app APP_NAME]
-$ heroku buildpacks:add https://github.com/mojodna/heroku-buildpack-cairo.git [--index X] [--app APP_NAME]
-$ heroku buildpacks:add https://github.com/nolman/heroku-gsl-buildpack.git [--index X] [--app APP_NAME]
-```
-Then add this package:
 
 ```sh
 $ heroku buildpacks:add https://github.com/MiroHibler/heroku-buildpack-inkscape.git [--index X] [--app APP_NAME]
 ```
+
+Don't forget to add `inkscape` to your [Aptfile](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-apt).
