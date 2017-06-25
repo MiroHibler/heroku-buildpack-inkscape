@@ -180,3 +180,4 @@ inkscape --without-gui --file=./test/data/drawing.svg \
 topic "Uploading test files..."
 curl --upload-file $FILE1 https://transfer.sh/$(basename $FILE1) | indent
 curl --upload-file $FILE2 https://transfer.sh/$(basename $FILE2) | indent
+echo -e
